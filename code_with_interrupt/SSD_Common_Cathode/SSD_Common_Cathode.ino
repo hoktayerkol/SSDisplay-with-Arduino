@@ -21,12 +21,12 @@
 
 #define TIMER_INTERVAL_MS         10
 #define DEBOUNCING_INTERVAL_MS    250
-#define LONG_PRESS_INTERVAL_MS    5000
+
 
 unsigned char ssd_code[10]=  {0x3F, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7C, 0x07, 0x7F, 0x67};
 
 const int dispNumber=4;
-int dipIndex=0;
+int dispIndex=0;
 
 unsigned int numdigit[dispNumber] = { 0 };
 unsigned int time_ms=0;
@@ -139,17 +139,17 @@ void  showDigit( )
     digitalWrite(digit1, HIGH);
 
     digitalWrite(latchPin,LOW);
-    if (dipIndex==1) 
+    if (dispIndex==1) 
     {
-      shiftOut(serData, serClk, MSBFIRST, ssd_code[numdigit[dipIndex]]|0x80);
+      shiftOut(serData, serClk, MSBFIRST, ssd_code[numdigit[dispIndex]]|0x80);
     } else {
-      shiftOut(serData, serClk, MSBFIRST, ssd_code[numdigit[dipIndex]]);
+      shiftOut(serData, serClk, MSBFIRST, ssd_code[numdigit[dispIndex]]);
     }
     digitalWrite(latchPin,HIGH);
     
     
     // turn on nth display
-    switch(dipIndex){
+    switch(dispIndex){
       case 0 : 
         digitalWrite(digit1,LOW);
         break;
@@ -165,7 +165,7 @@ void  showDigit( )
     }
 
   // increase display index
-  dipIndex = (dipIndex==dispNumber-1) ? 0 : ++dipIndex;
+  dispIndex = (dispIndex==dispNumber-1) ? 0 : ++dispIndex;
 }
 
 void count()
